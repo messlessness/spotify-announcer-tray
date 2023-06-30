@@ -90,11 +90,11 @@ def threaded(fn):
 		return thread
 	return wrapper
 
-def speak(phrase):
+def speak(phrase, _voice, _volume, _rate):
 	engine = pyttsx3.init()
-	engine.setProperty('voice', voice)
-	engine.setProperty('volume', volume)
-	engine.setProperty('rate', rate)
+	engine.setProperty('voice', _voice)
+	engine.setProperty('volume', _volume)
+	engine.setProperty('rate', _rate)
 	engine.say(phrase)
 	engine.runAndWait()
 	engine.stop()
@@ -118,11 +118,11 @@ def manage_process(p):
 			continue
 
 	
-def say(phrase):
+def say(phrase, _voice, _volume, _rate):
 	global t
 	global term
 	term = False
-	p = multiprocessing.Process(target=speak, args=(phrase,))
+	p = multiprocessing.Process(target=speak, args=(phrase, _voice, _volume, _rate))
 	p.start()
 	t = manage_process(p)
       
@@ -153,7 +153,7 @@ if __name__ == '__main__':
 
 			if (volume_changed):
 				stop_speaker()
-				say("Current volume is " + str(volume))
+				say("Current volume is " + str(volume), voice, volume, rate)
 
 				print("Current volume is " + str(volume))
 				prev_volume = volume
@@ -167,7 +167,7 @@ if __name__ == '__main__':
 				
 				if (not isInDelay):
 					stop_speaker()
-					say("Playing " + song + " by " + artist)
+					say("Playing " + song + " by " + artist, voice, volume, rate)
 
 					print("Playing " + song + " by " + artist)
 					systray.update(hover_text=artist + " - " + song)
